@@ -3,6 +3,7 @@ import './App.css'
 import { Input, Button, Form, Modal } from './components'
 import { ToastContainer } from './components/Toast'
 import type { ToastItem } from './components/Toast'
+import SearchBox from './components/SearchBox/SearchBox'
 
 // Add this at the top of the file to extend the Window interface
 declare global {
@@ -44,10 +45,28 @@ function App() {
       <h2 style={{ textAlign: 'center', marginBottom: 24 }}>Component Library Demo</h2>
       <Form onSubmit={handleFormSubmit} error={formError}>
         <Input
-          label="Your Name"
+          type="text"
           placeholder="Enter your name"
           value={inputValue}
-          onChange={e => setInputValue(e.target.value)}
+          onChange={(value: string) => setInputValue(value)}
+          isValid={!formError}
+          errorMessage={formError}
+          pattern=""
+          disabled={false}
+          readOnly={false}
+          maxLength={50}
+          allowNegative={false}
+          allowDecimal={false}
+          numberOfDecimals={4}
+          allowZero={true}
+          showFloatingLabel={true}
+        />
+        <SearchBox
+          onSearch={(value: string) => setInputValue(value)}
+          dropdownOptions={[{ id: '1', label: 'Option 1' }, { id: '2', label: 'Option 2' }]}
+          onOptionSelect={(option: any) => setInputValue(option.label)}
+          placeholder="Search..."
+          wrapperStyle={{ width: '50px', backgroundColor: 'red' }}
         />
         <Button type="submit" variant="primary">Submit</Button>
         <Button type="button" variant="secondary" onClick={() => setShowModal(true)}>
@@ -63,7 +82,7 @@ function App() {
         <Button onClick={() => setShowModal(false)}>Close</Button>
       </Modal>
 
-      <ToastContainer position="top-right" theme="dark" toasts={toasts} onRemove={handleRemoveToast} />
+      <ToastContainer position="top-right" toasts={toasts} onRemove={handleRemoveToast} />
     </div>
   )
 }
