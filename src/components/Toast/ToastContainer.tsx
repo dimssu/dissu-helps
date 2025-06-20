@@ -1,28 +1,28 @@
 import React from 'react';
 import Toast from './Toast';
-import type { ToastType } from './Toast';
+import type { ToastType, ToastTheme, ToastPosition } from './Toast';
 import styles from './Toast.module.scss';
 
-export type ToastPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
+export type { ToastPosition };
 
 export interface ToastItem {
   id: string;
   message: string;
   type?: ToastType;
   duration?: number;
-  theme?: 'dark' | 'primary' | 'secondary';
+  theme?: ToastTheme;
 }
 
 interface ToastContainerProps {
   position?: ToastPosition;
-  theme?: 'dark' | 'primary' | 'secondary';
+  theme?: ToastTheme;
   toasts: ToastItem[];
   onRemove: (id: string) => void;
 }
 
-const ToastContainer: React.FC<ToastContainerProps> = ({ position = 'top-right', theme = 'dark', toasts, onRemove }) => {
+const ToastContainer: React.FC<ToastContainerProps> = ({ position = 'top-right', theme = 'glass', toasts, onRemove }) => {
   return (
-    <div className={`${styles['toast-container']} ${styles[position]}`}> 
+    <div className={`${styles['toast-container']} ${styles[position]}`}>
       {toasts.map((toast) => (
         <Toast
           key={toast.id}
@@ -31,6 +31,7 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ position = 'top-right',
           duration={toast.duration}
           onClose={() => onRemove(toast.id)}
           theme={toast.theme || theme}
+          position={position}
         />
       ))}
     </div>

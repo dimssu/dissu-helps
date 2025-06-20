@@ -1,26 +1,149 @@
 .toast {
-  min-width: 220px;
-  max-width: 350px;
-  padding: 1rem 1.5rem;
-  border-radius: 1rem;
+  width: 340px;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
   font-size: 1rem;
   font-weight: 500;
   color: #fff;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 1.5px 4px rgba(0,0,0,0.10);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 1px 8px rgba(0, 0, 0, 0.08);
   margin: 0.5rem 0;
   position: relative;
-  animation: toastIn 0.3s cubic-bezier(.4,0,.2,1);
-  backdrop-filter: blur(8px) saturate(120%);
-  border: 1px solid rgba(255,255,255,0.08);
-  overflow: hidden;
-  transition: box-shadow 0.2s, border 0.2s;
+  animation: toastIn 0.4s cubic-bezier(0.21, 1.02, 0.73, 1);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%); // For Safari
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: box-shadow 0.3s, border 0.3s, transform 0.3s;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  pointer-events: auto;
+}
+
+.toast:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15), 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.icon {
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+  opacity: 0.85;
+  padding-top: 0.1rem;
+}
+
+.message {
+  flex-grow: 1;
+  padding-right: 1.75rem; /* Space for the close button */
+  line-height: 1.4;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.3s cubic-bezier(0.21, 1.02, 0.73, 1);
+}
+
+.slide-out-left {
+  animation: slideOutLeft 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.3s cubic-bezier(0.21, 1.02, 0.73, 1);
+}
+
+.slide-out-right {
+  animation: slideOutRight 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 // Theme: dark (default)
 .dark {
-  background: linear-gradient(135deg, #232526 0%, #414345 100%);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background-color: #1f2937;
+  color: #e5e7eb;
+  border: 1px solid #4b5563;
+
+  &.success, &.error, &.info, &.warning {
+    background-color: transparent;
+  }
+
+  &.success {
+    border-left: 4px solid #22c55e;
+    background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 0, 0) 80%);
+  }
+  &.error {
+    border-left: 4px solid #ef4444;
+    background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(0, 0, 0) 80%);
+  }
+  &.info {
+    border-left: 4px solid #3b82f6;
+    background-image: linear-gradient(to right, rgba(59, 130, 246, 0.15), rgba(31, 41, 55, 0) 80%);
+  }
+  &.warning {
+    border-left: 4px solid #f59e0b;
+    background-image: linear-gradient(to right, rgba(245, 158, 11, 0.15), rgba(31, 41, 55, 0) 80%);
+  }
+
+  .close {
+    color: #9ca3af;
+    background-color: rgba(255, 255, 255, 0.05);
+    &:hover {
+      color: #e5e7eb;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  .icon {
+    opacity: 1;
+  }
 }
 
 // Theme: primary
@@ -38,61 +161,81 @@
 }
 
 @keyframes toastIn {
-  from { transform: translateY(30px) scale(0.98); opacity: 0; }
-  to { transform: none; opacity: 1; }
+  from {
+    transform: translateY(20px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
 }
 
 .fade-in {
-  animation: toastIn 0.3s cubic-bezier(.4,0,.2,1);
+  animation: toastIn 0.4s cubic-bezier(0.21, 1.02, 0.73, 1);
 }
 
 .fade-out {
-  animation: toastOut 0.3s cubic-bezier(.4,0,.2,1) forwards;
+  animation: toastOut 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 @keyframes toastOut {
-  from { opacity: 1; transform: none; }
-  to { opacity: 0; transform: translateY(30px) scale(0.98); }
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
 }
 
 .close {
   position: absolute;
-  top: 0.5rem;
-  right: 0.75rem;
-  background: rgba(0,0,0,0.18);
-  border: none;
-  color: #fff;
+  top: 0.6rem;
+  right: 0.6rem;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid transparent;
+  color: rgba(255,255,255,0.8);
   font-size: 1.25rem;
   cursor: pointer;
   opacity: 0.7;
   border-radius: 50%;
-  width: 2rem;
-  height: 2rem;
+  width: 1.75rem;
+  height: 1.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.2s, background 0.2s;
+  transition: all 0.2s ease-in-out;
   z-index: 2;
+  line-height: 1;
 }
+
 .close:hover {
   opacity: 1;
-  background: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.15);
+  transform: scale(1.1);
+  color: #fff;
 }
 
 .success {
-  box-shadow: 0 0 0 2px #22c55e33;
+  background-color: rgba(34, 197, 94, 0.4);
+  border-color: rgba(34, 197, 94, 0.6);
 }
 
 .error {
-  box-shadow: 0 0 0 2px #ef444433;
+  background-color: rgba(239, 68, 68, 0.4);
+  border-color: rgba(239, 68, 68, 0.6);
 }
 
 .info {
-  box-shadow: 0 0 0 2px #3b82f633;
+  background-color: rgba(59, 130, 246, 0.4);
+  border-color: rgba(59, 130, 246, 0.6);
 }
 
 .warning {
-  box-shadow: 0 0 0 2px #f59e4233;
+  background-color: rgba(245, 158, 11, 0.4);
+  border-color: rgba(245, 158, 11, 0.6);
 }
 
 // Toast container positions
@@ -129,73 +272,34 @@
   position: absolute;
   left: 0;
   bottom: 0;
-  height: 4px;
+  height: 3px;
   width: 100%;
-  border-radius: 0 0 1rem 1rem;
+  border-radius: 0 0 12px 12px;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.85;
+  opacity: 0.7;
   animation-name: progressBar;
   animation-timing-function: linear;
   animation-fill-mode: forwards;
-  box-shadow: 0 0 8px 2px rgba(0,0,0,0.10);
+  box-shadow: none;
   background-size: 200% 100%;
   background-position: left center;
 }
 
 .success .progress {
-  background: linear-gradient(270deg, #22c55e 0%, #4ade80 50%, #bbf7d0 100%);
-  box-shadow: 0 0 12px 2px #22c55e55, 0 0 24px 4px #4ade8055;
-  animation: progressBar 3s linear forwards, shimmer-green 1.2s linear infinite;
-}
-
-@keyframes shimmer-green {
-  0% { background-position: left center; }
-  100% { background-position: right center; }
+  background: linear-gradient(270deg, #10b981, #6ee7b7);
 }
 
 .error .progress {
-  background: linear-gradient(270deg, #ef4444 0%, #f87171 50%, #fee2e2 100%);
-  box-shadow: 0 0 12px 2px #ef444455, 0 0 24px 4px #f8717155;
-  animation: progressBar 3s linear forwards, shimmer-red 1.2s linear infinite;
-}
-
-@keyframes shimmer-red {
-  0% { background-position: left center; }
-  100% { background-position: right center; }
+  background: linear-gradient(270deg, #ef4444, #fca5a5);
 }
 
 .info .progress {
-  background: linear-gradient(270deg, #3b82f6 0%, #60a5fa 50%, #dbeafe 100%);
-  box-shadow: 0 0 12px 2px #3b82f655, 0 0 24px 4px #60a5fa55;
-  animation: progressBar 3s linear forwards, shimmer-blue 1.2s linear infinite;
-}
-
-@keyframes shimmer-blue {
-  0% { background-position: left center; }
-  100% { background-position: right center; }
+  background: linear-gradient(270deg, #3b82f6, #93c5fd);
 }
 
 .warning .progress {
-  background: linear-gradient(270deg, #f59e42 0%, #fbbf24 50%, #fef3c7 100%);
-  box-shadow: 0 0 12px 2px #f59e4255, 0 0 24px 4px #fbbf2455;
-  animation: progressBar 3s linear forwards, shimmer-orange 1.2s linear infinite;
-}
-
-@keyframes shimmer-orange {
-  0% { background-position: left center; }
-  100% { background-position: right center; }
-}
-
-// fallback for theme-based progress
-.dark .progress:not(.success):not(.error):not(.info):not(.warning) {
-  background: linear-gradient(90deg, #4b5563 0%, #9ca3af 100%);
-}
-.primary .progress:not(.success):not(.error):not(.info):not(.warning) {
-  background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
-}
-.secondary .progress:not(.success):not(.error):not(.info):not(.warning) {
-  background: linear-gradient(90deg, #9333ea 0%, #f472b6 100%);
+  background: linear-gradient(270deg, #f97316, #fdba74);
 }
 
 @keyframes progressBar {
