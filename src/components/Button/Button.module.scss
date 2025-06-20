@@ -1,50 +1,144 @@
 .button {
-  padding: 0.75rem 1.5rem;
-  border: none;
   border-radius: 0.5rem;
-  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s, color 0.2s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: all 0.2s ease-in-out;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  position: relative;
+  border: 1px solid transparent;
+  text-decoration: none;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.sm {
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+}
+.md {
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+}
+.lg {
+  font-size: 1.125rem;
+  padding: 1rem 2rem;
+}
+
+.fullWidth {
+  width: 100%;
 }
 
 .primary {
   background: linear-gradient(90deg, #6366f1 0%, #818cf8 100%);
   color: #fff;
-  &:hover {
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+  &:hover:not(:disabled) {
     background: linear-gradient(90deg, #4f46e5 0%, #6366f1 100%);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+    transform: translateY(-1px);
   }
 }
 
 .secondary {
   background: #f3f4f6;
-  color: #222;
-  &:hover {
+  color: #374151;
+  border-color: #e5e7eb;
+  &:hover:not(:disabled) {
     background: #e5e7eb;
+    border-color: #d1d5db;
   }
 }
 
 .danger {
   background: #ef4444;
   color: #fff;
-  &:hover {
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+  &:hover:not(:disabled) {
     background: #dc2626;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  }
+}
+
+.outline {
+  background: transparent;
+  border-color: #6366f1;
+  color: #6366f1;
+  &:hover:not(:disabled) {
+    background: rgba(99, 102, 241, 0.05);
+  }
+}
+
+.ghost {
+  background: transparent;
+  color: #6366f1;
+  &:hover:not(:disabled) {
+    background: rgba(99, 102, 241, 0.08);
+  }
+}
+
+.link {
+  background: transparent;
+  color: #6366f1;
+  padding: 0;
+  &:hover:not(:disabled) {
+    text-decoration: underline;
+  }
+}
+
+.loading {
+  .content, .icon {
+    opacity: 0;
   }
 }
 
 .loader {
-  border: 2px solid #fff;
-  border-top: 2px solid #6366f1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   border-radius: 50%;
-  width: 1em;
-  height: 1em;
+  width: 1.2em;
+  height: 1.2em;
   animation: spin 0.8s linear infinite;
+  border-width: 2px;
+  border-style: solid;
 }
+
+.primary .loader {
+  border-color: rgba(255, 255, 255, 0.7);
+  border-top-color: #fff;
+}
+.secondary .loader, .outline .loader, .ghost .loader, .link .loader {
+  border-color: #6366f180;
+  border-top-color: #6366f1;
+}
+.danger .loader {
+  border-color: rgba(255, 255, 255, 0.7);
+  border-top-color: #fff;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+}
+
+.startIcon {
+  margin-right: -0.25rem;
+}
+
+.endIcon {
+  margin-left: -0.25rem;
+}
+
+.content {}
 
 @keyframes spin {
   to { transform: rotate(360deg); }
