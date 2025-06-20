@@ -62,11 +62,9 @@ function App() {
           showFloatingLabel={true}
         />
         <SearchBox
-          onSearch={(value: string) => setInputValue(value)}
-          dropdownOptions={[{ id: '1', label: 'Option 1' }, { id: '2', label: 'Option 2' }]}
-          onOptionSelect={(option: any) => setInputValue(option.label)}
+          onSearch={(value: string) => showToast({ message: value, type: 'success' })}
           placeholder="Search..."
-          wrapperStyle={{ width: '50px', backgroundColor: 'red' }}
+          expandedWrapperStyle={{ width: '100%' }}
         />
         <Button type="submit" variant="primary">Submit</Button>
         <Button type="button" variant="secondary" onClick={() => setShowModal(true)}>
