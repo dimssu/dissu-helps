@@ -13,15 +13,82 @@
   border-radius: 1rem;
   box-shadow: 0 8px 32px rgba(0,0,0,0.18);
   padding: 2rem 2.5rem;
-  min-width: 320px;
-  max-width: 90vw;
   position: relative;
+}
+
+.sm {
+  max-width: 400px;
+  padding: 0;
+}
+.md {
+  max-width: 600px;
+}
+.lg {
+  max-width: 800px;
+}
+.full {
+  max-width: 95vw;
+  min-height: 90vh;
+}
+
+.noPadding {
+  padding: 0;
+}
+
+.modalIn {
   animation: modalIn 0.25s cubic-bezier(.4,0,.2,1);
 }
 
-@keyframes modalIn {
-  from { transform: translateY(40px) scale(0.98); opacity: 0; }
-  to { transform: none; opacity: 1; }
+.modalOut {
+  animation: modalOut 0.25s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.fadeIn {
+  animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fadeOut {
+  animation: fadeOut 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes zoomOut {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+}
+
+.zoomIn {
+  animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.zoomOut {
+  animation: zoomOut 0.25s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
 }
 
 .title {
@@ -33,6 +100,15 @@
 
 .content {
   margin-bottom: 1.5rem;
+}
+
+.footer {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
 }
 
 .close {
