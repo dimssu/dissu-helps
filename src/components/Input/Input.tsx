@@ -168,7 +168,7 @@ function Input({
                     inputClassName,
                 )}
                 type={type}
-                pattern={pattern}
+                {...(pattern && { pattern })}
                 onKeyDown={(e) => {
                     if (type === 'number') {
                         ['e', 'E', '+'].includes(e.key) && e.preventDefault();
