@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import './App.css'
-import { Input, Button, Form, Modal } from './components'
 import { ToastContainer } from './components/Toast'
 import type { ToastItem } from './components/Toast'
 import SearchBox from './components/SearchBox/SearchBox'
+import Button from './components/Button/Button'
+import Input from './components/Input/Input'
+import Form from './components/Form/Form'
+import Modal from './components/Modal/Modal'
 
 // Add this at the top of the file to extend the Window interface
 declare global {
