@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { getLlmConfig } from '../llmConfigs';
-import './Summarizer.scss';
+import styles from './Summarizer.module.scss';
 import { FaMagic, FaTimes } from 'react-icons/fa';
 
 const useTypewriter = (text: string, speed: number = 20) => {
@@ -30,24 +30,7 @@ const useTypewriter = (text: string, speed: number = 20) => {
   return displayText;
 };
 
-const SummarizeIcon = () => (
-//   <svg
-//     width="24"
-//     height="24"
-//     viewBox="0 0 24 24"
-//     fill="none"
-//     xmlns="http://www.w3.org/2000/svg"
-//   >
-//     <path
-//       d="M4 6H20M4 12H20M4 18H12"
-//       stroke="currentColor"
-//       strokeWidth="2"
-//       strokeLinecap="round"
-//       strokeLinejoin="round"
-//     />
-//   </svg>
-    <FaMagic />
-);
+const SummarizeIcon = () => <FaMagic />;
 
 const ErrorIcon = () => (
   <svg
@@ -184,41 +167,47 @@ const Summarizer: React.FC = () => {
 
   const popupContent = (
     <div
-      className="summarizer-popup"
+      className={styles.summarizerPopup}
       ref={popupRef}
       style={{ top: `${position.top}px`, left: `${position.left}px` }}
       onMouseDown={(e) => e.stopPropagation()}
     >
-      {(summary || error) && (
-        <button
-          onClick={hidePopup}
-          className="summarizer-close-button"
-          title="Close"
-        >
-          <FaTimes />
-        </button>
-      )}
-      {isLoading ? (
-        <div className="summarizer-loader"></div>
-      ) : error ? (
-        <div className="summarizer-error">
-          <ErrorIcon />
-          <span>{error}</span>
+      <div className={styles.summarizerContainer}>
+        <div className={styles.summarizerMainContent}>
+          {isLoading ? (
+            <div className={styles.summarizerLoader}></div>
+          ) : error ? (
+            <div className={styles.summarizerError}>
+              <ErrorIcon />
+              <span>{error}</span>
+            </div>
+          ) : summary ? (
+            <div className={styles.summarizerContent}>
+              {displayText}
+              <span className={styles.summarizerCursor}></span>
+            </div>
+          ) : (
+            <button
+              onClick={handleSummarize}
+              className={styles.summarizerIconButton}
+              title="Summarize"
+            >
+              <SummarizeIcon />
+            </button>
+          )}
         </div>
-      ) : summary ? (
-        <div className="summarizer-content">
-          {displayText}
-          <span className="summarizer-cursor"></span>
-        </div>
-      ) : (
-        <button
-          onClick={handleSummarize}
-          className="summarizer-icon-button"
-          title="Summarize"
-        >
-          <SummarizeIcon />
-        </button>
-      )}
+        {(isLoading || summary || error) && (
+          <div className={styles.summarizerCloseContainer}>
+            <button
+              onClick={hidePopup}
+              className={styles.summarizerCloseButton}
+              title="Close"
+            >
+              <FaTimes />
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 
