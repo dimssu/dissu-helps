@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { getLlmConfig } from '../llmConfigs';
 import './Summarizer.scss';
-import { FaMagic } from 'react-icons/fa';
+import { FaMagic, FaTimes } from 'react-icons/fa';
 
 const useTypewriter = (text: string, speed: number = 20) => {
   const [displayText, setDisplayText] = useState('');
@@ -119,7 +119,10 @@ const Summarizer: React.FC = () => {
         popupRef.current &&
         !popupRef.current.contains(event.target as Node)
       ) {
-        hidePopup();
+        // Only hide on outside click when the initial icon is shown
+        if (!isLoading && !summary && !error) {
+          hidePopup();
+        }
       }
     };
 
@@ -130,7 +133,7 @@ const Summarizer: React.FC = () => {
       document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [handleSelection, hidePopup]);
+  }, [handleSelection, hidePopup, isLoading, summary, error]);
 
   const handleSummarize = async () => {
     const selection = window.getSelection();
@@ -186,6 +189,15 @@ const Summarizer: React.FC = () => {
       style={{ top: `${position.top}px`, left: `${position.left}px` }}
       onMouseDown={(e) => e.stopPropagation()}
     >
+      {(summary || error) && (
+        <button
+          onClick={hidePopup}
+          className="summarizer-close-button"
+          title="Close"
+        >
+          <FaTimes />
+        </button>
+      )}
       {isLoading ? (
         <div className="summarizer-loader"></div>
       ) : error ? (
