@@ -10,6 +10,8 @@ import Modal from './components/Modal/Modal'
 import { setAiConfig } from './aiComponents/config'
 import Summarizer from './aiComponents/Summarizer/Summarizer'
 import ToggleButton from './components/ToggleButton/ToggleButton'
+import EnhanceInput from './aiComponents/EnhanceInput/EnhanceInput'
+import Feedback from './components/Feedback/Feedback'
 
 
 // Add this at the top of the file to extend the Window interface
@@ -48,38 +50,51 @@ function App() {
     }
   }
 
+  const handleFeedbackSubmit = (data: { rating?: number; comment?: string }) => {
+    console.log('Feedback submitted:', data)
+    showToast({
+      message: 'Thanks for your feedback!',
+      type: 'success'
+    })
+  }
+
   setAiConfig({
     llmProvider: 'gemini',
-    apiKey: 'epnkgweg'
+    apiKey: 'AIzaSyDiInfo9C5E_vW-MTB-Xkm0BhFzV87dFRs'
   })
 
   return (
-    <div style={{ maxWidth: 400, margin: '2rem auto', position: 'relative' }}>
-      <h2 style={{ textAlign: 'center', marginBottom: 24 }}>Component Library Demo</h2>
-      <Form onSubmit={handleFormSubmit} error={formError}>
-        <Input
-          placeholder="Enter your name"
-          value={inputValue}
-          onChange={(value: string) => setInputValue(value)}
-          disabled={false}
-          readOnly={false}
-          showFloatingLabel={true}
-        />
-        <SearchBox
-          onSearch={(value: string) => showToast({ message: value, type: 'success' })}
-          placeholder="Search..."
-          expandedWrapperStyle={{ width: '100%' }}
-        />
-        <Button type="submit" variant="primary">Submit</Button>
-        <Button type="button" variant="secondary" onClick={() => setShowModal(true)}>
-          Open Modal
-        </Button>
-        <Button type="button" variant="danger" onClick={() => showToast({ message: 'This is an error toast!', type: 'error' })}>
-          Show Error Toast
-        </Button>
-      </Form>
-      <ToggleButton checked={isChecked} onChange={() => setIsChecked(!isChecked)} variant="aica"/>
-      <p>Diwali, also known as Deepavali, is a vibrant and widely celebrated Hindu festival signifying the triumph of light over darkness and good over evil. It is a time of immense joy, celebrated with the lighting of diyas (oil lamps), fireworks, and the exchange of sweets and gifts. The festival commemorates the return of Lord Rama to Ayodhya after a 14-year exile and his victory over the demon king Ravana, as well as the worship of Goddess Lakshmi, the deity of wealth and prosperity. 
+    <>
+      <div style={{ maxWidth: 400, margin: '2rem auto', position: 'relative' }}>
+        <h2 style={{ textAlign: 'center', marginBottom: 24 }}>Component Library Demo</h2>
+        <Form onSubmit={handleFormSubmit} error={formError}>
+          <Input
+            type="string"
+            placeholder="Enter your name"
+            value={inputValue}
+            onChange={(value: string) => setInputValue(value)}
+            isValid={!formError}
+            errorMessage={formError}
+            disabled={false}
+            readOnly={false}
+            maxLength={50}
+            showFloatingLabel={true}
+          />
+          <SearchBox
+            onSearch={(value: string) => showToast({ message: `Searching for: ${value}`, type: 'info' })}
+            placeholder="Search..."
+            expandedWrapperStyle={{ width: '100%' }}
+          />
+          <Button type="submit" variant="primary">Submit</Button>
+          <Button type="button" variant="secondary" onClick={() => setShowModal(true)}>
+            Open Modal
+          </Button>
+          <Button type="button" variant="danger" onClick={() => showToast({ message: 'This is an error toast!', type: 'error' })}>
+            Show Error Toast
+          </Button>
+        </Form>
+        <ToggleButton checked={isChecked} onChange={() => setIsChecked(!isChecked)} variant="warning"/>
+        <p>Diwali, also known as Deepavali, is a vibrant and widely celebrated Hindu festival signifying the triumph of light over darkness and good over evil. It is a time of immense joy, celebrated with the lighting of diyas (oil lamps), fireworks, and the exchange of sweets and gifts. The festival commemorates the return of Lord Rama to Ayodhya after a 14-year exile and his victory over the demon king Ravana, as well as the worship of Goddess Lakshmi, the deity of wealth and prosperity. 
 Diwali is a five-day festival, with each day holding its own significance. People clean and decorate their homes, wear new clothes, and participate in elaborate Lakshmi Puja ceremonies. The lighting of diyas and the colorful rangoli designs create a magical ambiance, transforming homes and streets into a visual spectacle. Families and friends gather, sharing delicious food and strengthening their bonds through gift exchanges and joyous celebrations. 
 Beyond its religious and cultural significance, Diwali also carries important social and moral lessons. It promotes the values of unity, compassion, and forgiveness as people come together to celebrate and share happiness. The festival encourages acts of kindness and generosity, reminding us of the importance of spreading positivity and light in our lives. Diwali, therefore, is not just a festival of lights, but also a celebration of good over evil, prosperity, and the enduring power of love and togetherness. 
 Essay on Diwali in English for Student (150, 200, 300, 400 Words) - eSaral
@@ -92,20 +107,44 @@ Diwali Essay in English (300 Words) for Class 7 and 8 Diwali, also known as Deep
 Vedantu
 
 An Essay On Diwali - BYJU'S
-“Diwali, also known as 'Deepavali' (a row of lamps), is one of the most fervently celebrated festivals of India. Diwali is often c...
+"Diwali, also known as 'Deepavali' (a row of lamps), is one of the most fervently celebrated festivals of India. Diwali is often c...
 
 BYJU'S
 Show all
 </p>
 
-      <Modal open={showModal} onClose={() => setShowModal(false)} title="Example Modal">
-        <p>This is a classy modal. Click outside or the × to close.</p>
-        <Button onClick={() => setShowModal(false)}>Close</Button>
-      </Modal>
-      <Summarizer />
+        <Modal open={showModal} onClose={() => setShowModal(false)} title="Example Modal">
+          <p>This is a classy modal. Click outside or the × to close.</p>
+          <Button onClick={() => setShowModal(false)}>Close</Button>
+        </Modal>
+        <Summarizer />
+        <EnhanceInput />
 
-      <ToastContainer position="top-right" toasts={toasts} onRemove={handleRemoveToast} />
-    </div>
+        {/* Inline Feedback Example */}
+        <div style={{ marginTop: '40px', borderTop: '1px solid #eee', paddingTop: '20px' }}>
+            <h3 style={{ textAlign: 'center' }}>Tell us what you think of this form</h3>
+            <Feedback
+                mode="inline"
+                onSubmit={handleFeedbackSubmit}
+                showStars={true}
+                showComment={true}
+                theme="light"
+            />
+        </div>
+
+        <ToastContainer position="top-right" toasts={toasts} onRemove={handleRemoveToast} />
+      </div>
+
+      {/* Global Feedback Example */}
+      <Feedback
+        mode="global"
+        position="right"
+        onSubmit={handleFeedbackSubmit}
+        theme="dark"
+        title="Help us improve"
+        showComment={false}
+      />
+    </>
   )
 }
 
