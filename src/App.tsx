@@ -50,7 +50,7 @@ function App() {
 
   setAiConfig({
     llmProvider: 'gemini',
-    apiKey: 'AIzaSyDiInfo9C5E_vW-MTB-Xkm0BhFzV87dFRs'
+    apiKey: 'epnkgweg'
   })
 
   return (
