@@ -1,0 +1,57 @@
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.enhanceIcon {
+  position: absolute;
+  z-index: 10000;
+
+  button {
+    background: #2a2a2a;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      background: #444;
+      transform: scale(1.1);
+    }
+  }
+
+  .loader {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #555;
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    background-color: #2a2a2a;
+    padding: 2px;
+  }
+
+  .error {
+    background-color: #e74c3c;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: help;
+  }
+}
